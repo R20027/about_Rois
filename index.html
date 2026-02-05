@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rois Zul Umam - Portfolio Pribadi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #1a1a2e;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        /* PERBAIKAN: Warna untuk nama lengkap */
+        .logo .rois { color: white; }
+        .logo .zul { color: var(--secondary-color); }
+        .logo .umam { color: white; }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--secondary-color);
+            left: 0;
+            bottom: 0;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 10rem 0 6rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: var(--secondary-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        /* FOTO ATAS - JAZ - DIPERBESAR & FITUR ZOOM */
+        .profile-img {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            margin: 0 auto 2.5rem;
+            border: 6px solid var(--secondary-color);
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            background-color: #f0f0f0;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .profile-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 25%;
+            transition: transform 0.5s;
+        }
+
+        .profile-img:hover img {
+            transform: scale(1.1);
+        }
+
+        /* FOTO BAWAH - HIJAU - DIPERBESAR & FITUR ZOOM */
+        .about-photo-container {
+            margin-top: 2.5rem;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            border: 5px solid var(--secondary-color);
+            overflow: hidden;
+            background-color: #e0f0ff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .about-photo-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .about-photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            transition: transform 0.5s;
+        }
+
+        .about-photo-container:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Modal untuk zoom foto */
+        .photo-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .photo-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            color: var(--secondary-color);
+        }
+
+        /* About Section */
+        .section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background-color: var(--secondary-color);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        /* PERBAIKAN: Konten text dan gambar sejajar di tengah */
+        .about-visual {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .info-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .info-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-item i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .info-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .skill-category h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        /* Warna berbeda untuk setiap kategori skill */
+        .skill-category.technical h3 {
+            border-bottom-color: #3498db;
+        }
+        
+        .skill-category.soft-skills h3 {
+            border-bottom-color: #2ecc71;
+        }
+        
+        .skill-category.other-interests h3 {
+            border-bottom-color: #9b59b6;
+        }
+
+        .skill-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            align-items: center;
+        }
+
+        .skill-name {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        /* PERBAIKAN: Warna persentase sesuai nilai */
+        .skill-percent {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .skill-percent.high { color: #2ecc71; } /* Hijau untuk nilai tinggi */
+        .skill-percent.medium { color: #f39c12; } /* Kuning untuk nilai sedang */
+        .skill-percent.low { color: #e74c3c; } /* Merah untuk nilai rendah */
+
+        .skill-bar {
+            height: 12px;
+            background-color: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Progress bar yang diisi dengan warna */
+        .skill-progress {
+            height: 100%;
+            border-radius: 6px;
+            width: 0;
+            transition: width 1.5s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Gradien warna untuk progress bar */
+        .skill-category.technical .skill-progress {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+        }
+        
+        .skill-category.soft-skills .skill-progress {
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+        }
+        
+        .skill-category.other-interests .skill-progress {
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+        }
+
+        /* Efek strip pada progress bar */
+        .skill-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-image: linear-gradient(
+                -45deg,
+                rgba(255, 255, 255, 0.2) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.2) 75%,
+                transparent 75%,
+                transparent
+            );
+            background-size: 20px 20px;
+            border-radius: 6px;
+        }
+
+        /* Timeline Section */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--secondary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .timeline-content::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::after {
+            left: -10px;
+        }
+
+        .timeline-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            color: #666;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::after {
+            box-shadow: -1px 1px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin: 0 10px;
+            color: white;
+            font-size: 1.2rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        /* PERBAIKAN: Warna berbeda untuk setiap ikon media sosial */
+        .social-links a.instagram:hover { background-color: #E4405F; }
+        .social-links a.tiktok:hover { background-color: #000000; }
+        .social-links a.youtube:hover { background-color: #FF0000; }
+        .social-links a.github:hover { background-color: #333333; }
+
+        .social-links a:hover {
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary-color);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+                transition: clip-path 0.4s ease;
+            }
+
+            .nav-links.active {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+
+            .nav-links li {
+                margin: 1rem 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+
+            .timeline-content::after {
+                left: -10px !important;
+                right: auto;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .profile-img {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .about-photo-container {
+                width: 160px;
+                height: 160px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <span class="rois">Rois</span> 
+                    <span class="zul">Zul</span> 
+                    <span class="umam">Umam</span>
+                </a>
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#home">Beranda</a></li>
+                    <li><a href="#about">Tentang Saya</a></li>
+                    <li><a href="#skills">Keahlian</a></li>
+                    <li><a href="#journey">Perjalanan</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section - FOTO ATAS (JAZ) -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <!-- Foto Profil dengan baju JAZ -->
+                <div class="profile-img" id="foto-jaz">
+                    <img src="https://i.ibb.co/fY0TFtJW/foto-jaz.jpg" alt="Foto Rois Zul Umam dengan baju JAZ">
+                </div>
+                <h1>Halo, saya <span>Rois Zul Umam</span></h1>
+                <p>Siswa SMKN 1 Maesan | Jurusan TKJ | Asal Jember</p>
+                <a href="#about" class="btn" style="display: inline-block; background-color: var(--secondary-color); color: white; padding: 12px 30px; border-radius: 30px; text-decoration: none; font-weight: 600; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); margin-top: 0.5rem;">Pelajari Tentang Saya</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>Tentang Saya</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Biodata Diri</h3>
+                    <p><strong>Rois Zul Umam</strong> - Saya lahir di Jember, Jawa Timur, dan saat ini sedang aktif belajar berbagai keterampilan teknis untuk mempersiapkan diri memasuki dunia profesional di bidang IT.</p>
+                    <p>Saya adalah siswa SMKN 1 Maesan yang sedang menempuh pendidikan di jurusan Teknik Komputer dan Jaringan (TKJ). Saya memiliki minat yang besar dalam bidang teknologi informasi, khususnya jaringan komputer dan pengembangan web.</p>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <i class="fas fa-user-graduate"></i>
+                            <h4>Pendidikan</h4>
+                            <p>SMKN 1 Maesan<br>Jurusan TKJ</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-birthday-cake"></i>
+                            <h4>Tanggal Lahir</h4>
+                            <p>27 Desember 2008</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h4>Asal</h4>
+                            <p>Jember, Jawa Timur</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-laptop-code"></i>
+                            <h4>Minat</h4>
+                            <p>Jaringan Komputer<br>Pengembangan Web</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="info-item" style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                        <i class="fas fa-quote-left" style="font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--accent-color);"></i>
+                        <h3>Motivasi</h3>
+                        <p style="font-style: italic; font-size: 1.1rem; margin-bottom: 1.5rem;">"Teknologi adalah masa depan, dan saya ingin menjadi bagian dari pembentuk masa depan tersebut. Dengan mempelajari TKJ, saya berharap dapat berkontribusi dalam perkembangan teknologi informasi di Indonesia."</p>
+                        
+                        <div style="margin-top: 1.5rem; display: flex; flex-direction: column; align-items: center;">
+                            <h4 style="color: var(--primary-color); margin-bottom: 0.5rem;">Fokus Saat Ini</h4>
+                            <p style="background-color: #f0f8ff; padding: 10px 20px; border-radius: 20px; border-left: 4px solid var(--secondary-color);">Belajar jaringan komputer & pengembangan web</p>
+                        </div>
+                        
+                        <!-- FOTO BAWAH - HIJAU -->
+                        <div class="about-photo-container" id="foto-hijau">
+                            <img src="https://i.ibb.co/B2srzg9v/foto-hijau.jpg" alt="Foto Rois Zul Umam dengan baju hijau">
+                        </div>
+                        <p style="margin-top: 1.5rem; font-weight: bold; color: var(--primary-color); font-size: 1.2rem;">Rois Zul Umam</p>
+                        <p style="color: #666; font-size: 0.9rem;">SMKN 1 Maesan | TKJ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal untuk zoom foto -->
+    <div class="photo-modal" id="photoModal">
+        <button class="close-modal" id="closeModal">&times;</button>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="Foto diperbesar">
+        </div>
+    </div>
+
+    <!-- Skills Section -->
+    <section class="section" id="skills" style="background-color: #f0f5ff;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Keahlian & Minat</h2>
+            </div>
+            <div class="skills-container">
+                <div class="skill-category technical">
+                    <h3>Teknis</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Jaringan Komputer</span>
+                            <span class="skill-percent high">80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="80"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Konfigurasi Perangkat Jaringan</span>
+                            <span class="skill-percent medium">75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="75"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Pengembangan Web Dasar</span>
+                            <span class="skill-percent medium">70%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="70"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category soft-skills">
+                    <h3>Soft Skills</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Kerja Sama Tim</span>
+                            <span class="skill-percent high">85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="85"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Pemecahan Masalah</span>
+                            <span class="skill-percent high">80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="80"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Komunikasi</span>
+                            <span class="skill-percent medium">75%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="75"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category other-interests">
+                    <h3>Minat Lainnya</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Keamanan Jaringan</span>
+                            <span class="skill-percent low">65%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="65"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">UI/UX Design</span>
+                            <span class="skill-percent low">60%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="60"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Internet of Things (IoT)</span>
+                            <span class="skill-percent low">55%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="55"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Journey Section -->
+    <section class="section" id="journey">
+        <div class="container">
+            <div class="section-title">
+                <h2>Perjalanan Pendidikan</h2>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>2023 - Sekarang</h3>
+                        <p><strong>SMKN 1 Maesan</strong></p>
+                        <p>Menempuh pendidikan di jurusan Teknik Komputer dan Jaringan (TKJ). Mempelajari berbagai aspek jaringan komputer, konfigurasi perangkat jaringan, dan dasar-dasar pemrograman.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>27 Desember 2008</h3>
+                        <p><strong>Lahir di Jember</strong></p>
+                        <p>Lahir di Kota Jember, Jawa Timur. Sejak kecil menunjukkan ketertarikan pada teknologi dan komputer.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Masa Depan</h3>
+                        <p><strong>Rencana & Cita-cita</strong></p>
+                        <p>Bercita-cita menjadi ahli jaringan komputer atau pengembang web profesional. Berencana untuk melanjutkan pendidikan ke jenjang yang lebih tinggi atau langsung bekerja di bidang IT setelah lulus SMK.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <h2 style="margin-bottom: 1rem;">
+                    <span style="color: white;">Rois</span> 
+                    <span style="color: var(--secondary-color);">Zul</span> 
+                    <span style="color: white;">Umam</span>
+                </h2>
+                <p>Siswa SMKN 1 Maesan | Jurusan Teknik Komputer dan Jaringan</p>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/rzm027?igsh=MWtsY3E5OGNrYjBjOA==" target="_blank" class="instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@rois0000027?_r=1&_t=ZS-93elDtU0iAu" target="_blank" class="tiktok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://youtube.com/@rois0027?si=ar2bZ0tcHUNd1xtM" target="_blank" class="youtube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://github.com/R20027" target="_blank" class="github">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2023 Rois Zul Umam. Semua hak dilindungi.</p>
+                    <p>Website dibuat dengan HTML, CSS, dan JavaScript</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.querySelector('i').classList.toggle('fa-bars');
+            menuToggle.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuToggle.querySelector('i').classList.add('fa-bars');
+                menuToggle.querySelector('i').classList.remove('fa-times');
+            });
+        });
+
+        // Animate skill bars on scroll
+        function animateSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            
+            skillBars.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                bar.style.width = width + '%';
+            });
+        }
+
+        // Check if element is in viewport
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        // Animate skill bars when they come into view
+        function checkSkillBars() {
+            const skillSection = document.getElementById('skills');
+            if (isInViewport(skillSection)) {
+                animateSkillBars();
+                window.removeEventListener('scroll', checkSkillBars);
+            }
+        }
+
+        // Add scroll event listener for skill bars animation
+        window.addEventListener('scroll', checkSkillBars);
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Initialize skill bars with 0 width
+        document.addEventListener('DOMContentLoaded', function() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            skillBars.forEach(bar => {
+                bar.style.width = '0';
+            });
+            
+            // Set warna untuk persentase skill
+            const skillPercentElements = document.querySelectorAll('.skill-percent');
+            skillPercentElements.forEach(element => {
+                const percentText = element.textContent;
+                const percentValue = parseInt(percentText);
+                
+                if (percentValue >= 75) {
+                    element.classList.add('high');
+                    element.classList.remove('medium', 'low');
+                } else if (percentValue >= 60) {
+                    element.classList.add('medium');
+                    element.classList.remove('high', 'low');
+                } else {
+                    element.classList.add('low');
+                    element.classList.remove('high', 'medium');
+                }
+            });
+            
+            // Animate skill bars immediately for testing
+            setTimeout(() => {
+                animateSkillBars();
+            }, 500);
+            
+            // Fitur zoom foto
+            const fotoJaz = document.getElementById('foto-jaz');
+            const fotoHijau = document.getElementById('foto-hijau');
+            const photoModal = document.getElementById('photoModal');
+            const modalImage = document.getElementById('modalImage');
+            const closeModal = document.getElementById('closeModal');
+            
+            // Fungsi untuk membuka modal dengan foto
+            function openModal(imageSrc) {
+                modalImage.src = imageSrc;
+                photoModal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Mencegah scroll
+            }
+            
+            // Fungsi untuk menutup modal
+            function closePhotoModal() {
+                photoModal.classList.remove('active');
+                document.body.style.overflow = 'auto'; // Mengembalikan scroll
+            }
+            
+            // Event listener untuk foto JAZ
+            fotoJaz.addEventListener('click', function() {
+                openModal('https://i.ibb.co/fY0TFtJW/foto-jaz.jpg');
+            });
+            
+            // Event listener untuk foto Hijau
+            fotoHijau.addEventListener('click', function() {
+                openModal('https://i.ibb.co/B2srzg9v/foto-hijau.jpg');
+            });
+            
+            // Event listener untuk menutup modal
+            closeModal.addEventListener('click', closePhotoModal);
+            
+            // Tutup modal saat klik di luar gambar
+            photoModal.addEventListener('click', function(e) {
+                if (e.target === photoModal) {
+                    closePhotoModal();
+                }
+            });
+            
+            // Tutup modal dengan tombol ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && photoModal.classList.contains('active')) {
+                    closePhotoModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
